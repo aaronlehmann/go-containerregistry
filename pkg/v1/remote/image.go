@@ -181,7 +181,7 @@ func (rl *remoteImageLayer) Compressed() (io.ReadCloser, error) {
 	}
 
 	if d.Data != nil {
-		return verify.ReadCloser(io.NopCloser(bytes.NewReader(d.Data)), d.Size, d.Digest)
+		return io.NopCloser(bytes.NewReader(d.Data)), nil
 	}
 
 	// We don't want to log binary layers -- this can break terminals.
@@ -218,7 +218,7 @@ func (rl *remoteImageLayer) Compressed() (io.ReadCloser, error) {
 			continue
 		}
 
-		return verify.ReadCloser(resp.Body, d.Size, rl.digest)
+		return resp.Body, nil
 	}
 
 	return nil, lastErr

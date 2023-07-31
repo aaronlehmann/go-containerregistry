@@ -267,7 +267,7 @@ func (f *fetcher) fetchBlob(ctx context.Context, size int64, h v1.Hash) (io.Read
 		}
 	}
 
-	return verify.ReadCloser(resp.Body, size, h)
+	return resp.Body, nil
 }
 
 func (f *fetcher) headBlob(ctx context.Context, h v1.Hash) (*http.Response, error) {
